@@ -96,7 +96,7 @@ Software to install :
 - [x] SSH server
 - [x] Standard system utilities
 
-Install GRUB boot loader to the master boot record ? **<*Yes*>**
+Install GRUB boot loader to the master boot record ? **<*Yes*>**  
 Device for boot loader installation
 ```
 /dev/sda (ata-VBOX_HARDDISK)
