@@ -169,16 +169,16 @@ sudo systemctl -l | grep running
   
 Here are all the running services :
 ```
-cron.service                 loaded active running   Regular background program processing daemon 		# scheduling scripts/tasks in future or regularly
-dbus.service                 loaded active running   D-Bus System Message Bus 							# allow multiple users on same machine
-fail2ban.service             loaded active running   Fail2Ban Service 									# protection against DOS attack
-getty@tty1.service           loaded active running   Getty on tty1 										# terminal + commands services
-portsentry.service           loaded active running   LSB: # start and stop portsentry 					# protection against portscans
-rsyslog.service              loaded active running   System Logging Service 							# saving all log messages over an IP network
-ssh.service                  loaded active running   OpenBSD Secure Shell server 						# ssh
-systemd-journald.service     loaded active running   Journal Service 									# collects and stores logging data in indexed journals (kernel, stout, errors)
-systemd-logind.service       loaded active running   Login Service 										# manages user login
-systemd-timesyncd.service    loaded active running   Network Time Synchronization 						# Sync local system clock with remote network time protocol server
-systemd-udevd.service        loaded active running   udev Kernel Device Manager 						# listens to kernel uevents and executes matching instructions specified in udev rules
-user@1000.service            loaded active running   User Manager for UID 1000           				# me
+cron.service                 loaded active running   Regular background program processing daemon	# scheduling scripts/tasks in future or regularly
+dbus.service                 loaded active running   D-Bus System Message Bus						# allow multiple users on same machine
+fail2ban.service             loaded active running   Fail2Ban Service								# protection against DOS attack
+getty@tty1.service           loaded active running   Getty on tty1									# terminal + commands services
+portsentry.service           loaded active running   LSB: # start and stop portsentry				# protection against portscans
+rsyslog.service              loaded active running   System Logging Service							# saving all log messages over an IP network
+ssh.service                  loaded active running   OpenBSD Secure Shell server					# ssh
+systemd-journald.service     loaded active running   Journal Service								# collects and stores logging data in indexed journals (kernel, stout, errors)
+systemd-logind.service       loaded active running   Login Service									# manages user login
+systemd-timesyncd.service    loaded active running   Network Time Synchronization					# Sync local system clock with remote network time protocol server
+systemd-udevd.service        loaded active running   udev Kernel Device Manager						# listens to kernel uevents and executes matching instructions specified in udev rules
+user@1000.service            loaded active running   User Manager for UID 1000						# me
 ```
