@@ -31,8 +31,8 @@ add these lines :
 ```
 address 		10.12.1.117   	# IP address of VM
 gateway 		10.12.254.254 	# Gateway address of VM
-broadcast 		10.12.255.255 	# Broadcast address of VM
-netmask     255.255.255.252   # Netmask /30
+broadcast 		10.12.255.255   # Broadcast address of VM
+netmask                 255.255.255.252 # Netmask /30
 ```
 then
 ```
