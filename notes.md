@@ -1,6 +1,6 @@
 username : emilie
 
-## 3. Partie Réseau et Sécurité
+# 3. Partie Réseau et Sécurité
 
 **Packages installed**
 ```
@@ -8,19 +8,19 @@ apt install sudo
 apt install net-tools (for ifconfig)
 apt install vim
 ```
-
-**Vous devez créer un utilisateur non root pour vous connecter et travailler.**
+  
+   
+## Vous devez créer un utilisateur non root pour vous connecter et travailler.
 ```
 usermod -aG sudo username
 ```
 
-**Utilisez sudo pour pouvoir, depuis cet utilisateur, effectuer les operations demandant des droits speciaux.**
+## Utilisez sudo pour pouvoir, depuis cet utilisateur, effectuer les operations demandant des droits speciaux.
 ```
 sudo fdisk -l
 ```
 
-**Nous ne voulons pas que vous utilisiez le service DHCP de votre machine. A vous
-donc de la configurer afin qu’elle ait une IP fixe et un Netmask en /30.**
+## Nous ne voulons pas que vous utilisiez le service DHCP de votre machine. A vous donc de la configurer afin qu’elle ait une IP fixe et un Netmask en /30.
 
 *Pour utiliser le service static au lieu du service DHCP de la machine*
 ```
@@ -39,9 +39,7 @@ then
 sudo reboot
 ```
 
-**Vous devez changer le port par defaut du service SSH par celui de votre choix.
-L’accès SSH DOIT se faire avec des publickeys. L’utilisateur root ne doit pas
-pouvoir se connecter en SSH.**  
+## Vous devez changer le port par defaut du service SSH par celui de votre choix. L’accès SSH DOIT se faire avec des publickeys. L’utilisateur root ne doit pas pouvoir se connecter en SSH.
 
   
 *Pour changer le port par défault du service SSH*
@@ -77,8 +75,7 @@ uncomment line ```# PermitRootLogin restrict-password``` and replace ```restrict
 uncomment line ```# PubkeyAuthentication yes```  
 uncomment line ```# PasswordAuthentication yes``` and replace ```yes``` by ```no```  
   
-**Vous devez mettre en place des règles de pare-feu (firewall) sur le serveur avec
-uniquement les services utilisés accessible en dehors de la VM.**  
+## Vous devez mettre en place des règles de pare-feu (firewall) sur le serveur avec uniquement les services utilisés accessible en dehors de la VM.  
   
 First, check with ```netstat -tpln``` to see which ports are open (should only be one port for ssh with 2 different protocols *tcp* and *tcp6*, will be more later)  
 
@@ -100,8 +97,7 @@ sudo ufw allow PORTNUMBER
 ```
 (to allow any port 42 connection)  
   
-**Vous devez mettre en place une protection contre les DOS (Denial Of Service
-Attack) sur les ports ouverts de votre VM.**
+## Vous devez mettre en place une protection contre les DOS (Denial Of Service Attack) sur les ports ouverts de votre VM.
   
 *Installing protection against DOS attacks on open ports*
 ```
@@ -133,8 +129,7 @@ to check that your ipaddress is in the banned section
 sudo fail2ban-client set sshd unbanip your_ip_address
 ```  
   
-**Vous devez mettre en place une protection contre les scans sur les ports ouverts
-de votre VM.**
+## Vous devez mettre en place une protection contre les scans sur les ports ouverts de votre VM.
   
 *Installing protection against port scanning*
 ```
@@ -161,7 +156,7 @@ replace
 ```BLOCK_TCP="0"``` by ```BLOCK_TCP="1"```
 
 
-**Arrêtez les services dont vous n’avez pas besoin pour ce projet.**
+## Arrêtez les services dont vous n’avez pas besoin pour ce projet.
 
 *First check running services*
 ```
