@@ -77,25 +77,53 @@ uncomment line ```# PasswordAuthentication yes``` and replace ```yes``` by ```no
   
 ## Vous devez mettre en place des règles de pare-feu (firewall) sur le serveur avec uniquement les services utilisés accessible en dehors de la VM.  
   
-First, check with ```netstat -tpln``` to see which ports are open (should only be one port for ssh with 2 different protocols *tcp* and *tcp6*, will be more later)  
+To do so we will use iptables.
 
-*Installing the firewall*
+*Installing iptables-persistent to make the rule change permanent*
 ```
-sudo apt-get install ufw
+sudo apt-get install iptables-persistent
 ```
   
-*Activate the firewall*
+*Create the folder containing the rules (ipv4 and ipv6)*
 ```
-sudo ufw enable
+sudo service netfilter-persistent start
 ```
 
 *Adding rules to the firewall*  
   
+First, get the IP address of the machine (```ifconfig```, starting with *en*, or ```ip a```)  
+  
 1. allow all traffic for ssh port (because we want to be able to connect through ssh)
 ```
-sudo ufw allow PORTNUMBER
+sudo iptables -A INPUT -p tcp -i enp0s3 --dport 42 -j ACCEPT
 ```
 (to allow any port 42 connection)  
+  
+Then save it as a permanent change
+```
+sudo service netfilter-persistent save
+```
+  
+We can also add rules directly to the files ```/etc/iptables/rules.v4``` or ```/etc/iptables/rules.v6```. I added the following rules
+```
+# SSH CONNECTION
+-A INPUT -i enp0s3 -p tcp -m tcp --dport 42 -j ACCEPT
+
+# WEB PORTS
+-A INPUT -i enp0s3 -p tcp -m tcp --dport 80 -j ACCEPT
+-A INPUT -i enp0s3 -p tcp -m tcp --dport 443 -j ACCEPT
+
+# DNS PORTS (tcp and udp)
+-A INPUT -i enp0s3 -p tcp -m tcp --dport 53 -j ACCEPT
+-A INPUT -i enp0s3 -p udp -m udp --dport 53 -j ACCEPT
+
+# TIME PORT
+-A INPUT -i enp0s3 -p udp -m udp --dport 123 -j ACCEPT
+```
+To save them directly from these files, we can use the command
+```
+sudo service netfilter-persistent reload
+```
   
 ## Vous devez mettre en place une protection contre les DOS (Denial Of Service Attack) sur les ports ouverts de votre VM.
   
@@ -104,10 +132,11 @@ sudo ufw allow PORTNUMBER
 sudo apt install fail2ban
 ```
   
-*Configurate the protection*  
+*Copy the configuration file to a local one and configurate the protection*  
 ```
 cd /etc/fail2ban
-sudo vim jail.conf
+sudo cp jail.conf jail.local
+sudo vim jail.local
 ```
 
 in ```SSH SERVERS SECTION```  
@@ -128,6 +157,11 @@ to check that your ipaddress is in the banned section
 ```
 sudo fail2ban-client set sshd unbanip your_ip_address
 ```  
+
+then restart fail2ban service
+```
+sudo service fail2ban restart
+```
   
 ## Vous devez mettre en place une protection contre les scans sur les ports ouverts de votre VM.
   
@@ -149,18 +183,67 @@ replace
   
 then
 ```
-cd /etc/portsentry/portsentry.conf
+sudo vim /etc/portsentry/portsentry.conf
 ```
 replace  
 ```BLOCK_UDP="0"``` by ```BLOCK_UDP="1"```
 ```BLOCK_TCP="0"``` by ```BLOCK_TCP="1"```
+  
+To make sure our own IP address doesn't get banned :
+```
+sudo vim /etc/portsentry/portsentry.ignore.static
+```
+  
+Add your inet and IP addresses
 
+then restart the portsentry service :  
+```
+sudo service portsentry restart
+```
+  
+*To check if portscan protection applied*  
+  
+From a machine, try
+```
+nmap 10.12.1.117
+```
+*You should get kicked out from the VM if you were connected via ssh*
+
+To unblock IP address, go back to the VM  
+```
+sudo iptables -L --line-numbers
+```
+Check the line that DROP the source of your machine
+```
+sudo iptables -D INPUT corresponding_line
+```
+Then also deleting your IP address from the denied hosts file
+```
+sudo vim /etc/hosts.deny
+```
+Delete IP address of the machine from which you did the *nmap*  
+
+then restart portsentry service
+```
+sudo service portsentry restart
+```
 
 ## Arrêtez les services dont vous n’avez pas besoin pour ce projet.
 
-*First check running services*
+To do so, we are going to do a linked clone of our VM. And delete the services on the cloned VM to see which services are needed for the project.
+
+1. Log out , close and turn off your VM
+2. Right click in VirtualBox on *Clone...*
+3. *Continue* and tick *linked clone*
+
+**Then, open the cloned VM**
+
+*Check running services*
 ```
-sudo systemctl -l | grep running
+sudo systemctl list-units -t service
+```
+```
+sudo systemctl list-unit-files --state=enabled
 ```
   
 Here are all the running services :
