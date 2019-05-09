@@ -1,4 +1,4 @@
-## Vous devez mettre en place une protection contre les scans sur les ports ouverts de votre VM.
+## You have to set a protection against scans on your VM’s open ports.
   
 *Installing protection against port scanning*
 ```
@@ -40,7 +40,7 @@ sudo service portsentry restart
   
 From a machine, try
 ```
-nmap 10.12.1.117
+nmap 10.12.1.129
 ```
 *You should get kicked out from the VM if you were connected via ssh*
 
