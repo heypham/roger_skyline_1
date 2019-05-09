@@ -230,7 +230,7 @@ sudo service portsentry restart
 
 ## Arrêtez les services dont vous n’avez pas besoin pour ce projet.
 
-To do so, we are going to do a linked clone of our VM. And delete the services on the cloned VM to see which services are needed for the project.
+To do so, we are going to do a linked clone of our VM. And disable the services on the cloned VM to see which services are needed for the project.
 
 1. Log out , close and turn off your VM
 2. Right click in VirtualBox on *Clone...*
@@ -242,22 +242,39 @@ To do so, we are going to do a linked clone of our VM. And delete the services o
 ```
 sudo systemctl list-units -t service
 ```
+or
 ```
 sudo systemctl list-unit-files --state=enabled
+```
+or
+```
+sudo service --status-all
 ```
   
 Here are all the running services :
 ```
-cron.service                 loaded active running   Regular background program processing daemon	# scheduling scripts/tasks in future or regularly
-dbus.service                 loaded active running   D-Bus System Message Bus						# allow multiple users on same machine
-fail2ban.service             loaded active running   Fail2Ban Service								# protection against DOS attack
-getty@tty1.service           loaded active running   Getty on tty1									# terminal + commands services
-portsentry.service           loaded active running   LSB: # start and stop portsentry				# protection against portscans
-rsyslog.service              loaded active running   System Logging Service							# saving all log messages over an IP network
-ssh.service                  loaded active running   OpenBSD Secure Shell server					# ssh
-systemd-journald.service     loaded active running   Journal Service								# collects and stores logging data in indexed journals (kernel, stout, errors)
-systemd-logind.service       loaded active running   Login Service									# manages user login
-systemd-timesyncd.service    loaded active running   Network Time Synchronization					# Sync local system clock with remote network time protocol server
-systemd-udevd.service        loaded active running   udev Kernel Device Manager						# listens to kernel uevents and executes matching instructions specified in udev rules
-user@1000.service            loaded active running   User Manager for UID 1000						# me
+UNIT FILE                    STATE
+autovt@.service              enabled
+console-setup.service        enabled
+cron.service                 enabled
+fail2ban.service             enabled
+getty@.service               enabled
+keyboard-setup.service       enabled
+netfilter-persistent.service enabled
+networking.service           enabled
+rsyslog.service              enabled
+ssh.service                  enabled
+sshd.service                 enabled
+syslog.service               enabled
+systemd-timesyncd.service    enabled
+remote-fs.target             enabled
+apt-daily-upgrade.timer      enabled
+apt-daily.timer              enabled
+```
+  
+All services listed above are useful, since they are the default services available.
+  
+To disable a service :  
+```
+sudo systemctl disable service_name
 ```
