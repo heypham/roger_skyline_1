@@ -21,6 +21,11 @@ sudo fdisk -l
 ```
 
 ## Nous ne voulons pas que vous utilisiez le service DHCP de votre machine. A vous donc de la configurer afin qu’elle ait une IP fixe et un Netmask en /30.
+  
+Get IP address of VM
+```
+sudo ifconfig
+```
 
 *Pour utiliser le service static au lieu du service DHCP de la machine*
 ```
