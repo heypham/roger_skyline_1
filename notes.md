@@ -79,6 +79,11 @@ uncomment line ```# PermitRootLogin restrict-password``` and replace ```restrict
 
 uncomment line ```# PubkeyAuthentication yes```  
 uncomment line ```# PasswordAuthentication yes``` and replace ```yes``` by ```no```  
+
+then restart the ssh service
+```
+sudo service sshd restart
+```
   
 ## Vous devez mettre en place des règles de pare-feu (firewall) sur le serveur avec uniquement les services utilisés accessible en dehors de la VM.  
   
