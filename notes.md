@@ -220,6 +220,59 @@ then restart fail2ban service
 sudo service fail2ban restart
 ```
   
+## Protection contre les DDOS sur les ports ouverts de votre VM. (aka multi attaques)
+  
+**Using IPTABLES**  
+https://javapipe.com/blog/iptables-ddos-protection/
+
+```
+# BLOCKING INVALID PACKETS
+sudo iptables -t mangle -A PREROUTING -m conntrack --ctstate INVALID -j DROP
+
+# BLOCKING NEW PACKETS THAT ARE NOT SYN
+sudo iptables -t mangle -A PREROUTING -p tcp ! --syn -m conntrack --ctstate NEW -j DROP
+
+# BLOCKING Packets With Bogus TCP Flags
+sudo iptables -t mangle -A PREROUTING -p tcp --tcp-flags FIN,SYN,RST,PSH,ACK,URG NONE -j DROP 
+sudo iptables -t mangle -A PREROUTING -p tcp --tcp-flags FIN,SYN FIN,SYN -j DROP 
+sudo iptables -t mangle -A PREROUTING -p tcp --tcp-flags SYN,RST SYN,RST -j DROP 
+sudo iptables -t mangle -A PREROUTING -p tcp --tcp-flags FIN,RST FIN,RST -j DROP 
+sudo iptables -t mangle -A PREROUTING -p tcp --tcp-flags FIN,ACK FIN -j DROP 
+sudo iptables -t mangle -A PREROUTING -p tcp --tcp-flags ACK,URG URG -j DROP 
+sudo iptables -t mangle -A PREROUTING -p tcp --tcp-flags ACK,FIN FIN -j DROP 
+sudo iptables -t mangle -A PREROUTING -p tcp --tcp-flags ACK,PSH PSH -j DROP 
+sudo iptables -t mangle -A PREROUTING -p tcp --tcp-flags ALL ALL -j DROP 
+sudo iptables -t mangle -A PREROUTING -p tcp --tcp-flags ALL NONE -j DROP 
+sudo iptables -t mangle -A PREROUTING -p tcp --tcp-flags ALL FIN,PSH,URG -j DROP 
+sudo iptables -t mangle -A PREROUTING -p tcp --tcp-flags ALL SYN,FIN,PSH,URG -j DROP 
+sudo iptables -t mangle -A PREROUTING -p tcp --tcp-flags ALL SYN,RST,ACK,FIN,URG -j DROP
+  
+# Block Packets From Private Subnets (Spoofing)
+sudo iptables -t mangle -A PREROUTING -s 224.0.0.0/3 -j DROP 
+sudo iptables -t mangle -A PREROUTING -s 169.254.0.0/16 -j DROP 
+sudo iptables -t mangle -A PREROUTING -s 172.16.0.0/12 -j DROP 
+sudo iptables -t mangle -A PREROUTING -s 192.0.2.0/24 -j DROP 
+sudo iptables -t mangle -A PREROUTING -s 192.168.0.0/16 -j DROP 
+#NOT THIS ONE SINCE OUR IP ADDRESS IS 10.12.1.112
+# sudo iptables -t mangle -A PREROUTING -s 10.0.0.0/8 -j DROP 
+sudo iptables -t mangle -A PREROUTING -s 0.0.0.0/8 -j DROP 
+sudo iptables -t mangle -A PREROUTING -s 240.0.0.0/5 -j DROP 
+sudo iptables -t mangle -A PREROUTING -s 127.0.0.0/8 ! -i lo -j DROP
+```
+
+Save these rules as permanent
+```
+sudo service netfilter-persistent save
+sudo service netfilter-persistent restart
+```
+
+then reboot
+```
+sudo reboot
+```
+
+*To test if working, use slowloris*
+  
 ## Vous devez mettre en place une protection contre les scans sur les ports ouverts de votre VM.
   
 *Installing protection against port scanning*
@@ -272,7 +325,7 @@ sudo iptables -L --line-numbers
 ```
 Check the line that DROP the source of your machine
 ```
-sudo iptables -D INPUT corresponding_line
+sudo iptables -D f2b-HTTP corresponding_line
 ```
 Then also deleting your IP address from the denied hosts file
 ```
