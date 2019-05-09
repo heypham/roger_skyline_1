@@ -152,6 +152,53 @@ sudo vim jail.local
 in ```SSH SERVERS SECTION```  
 replace all ```port = ssh``` by ```port = PORTNUMBER```
 
+in ``` JAILS ``` section add the following  
+```
+# Block login attmepts
+[apache]
+
+enabled = true
+port = http,https
+filter = apache-auth
+logpath = /var/log/apache2/*error.log
+          /var/log/apache2/*errors.log
+maxretry = 3
+bantime = 600
+
+# DOS protection
+[apache-dos]
+
+enabled = true
+port = http,https
+filter = apache-dos
+logpath = /var/log/apache2/access.log
+bantime = 600
+maxretry = 300
+findtime = 300
+action = iptables[name=HTTP, port=http, protocol=tcp]
+```
+
+Create *apache-dos.conf* file in **filters.d** folder:
+```
+cd /etc/fail2ban/filters.d/
+sudo touch apache-dos.conf
+sudo vim apache-dos.conf
+```
+Add the following :
+```
+[Definition] 
+failregex = ^<HOST> -.*"(GET|POST).*
+ignoreregex =
+```
+Then enable **[apache dos]** in the file *defaults-debian.conf*
+```
+cd /etc/fail2ban/jail.d
+sudo vim defaults-debian.conf
+
+# ADD THESE LINES
+[apache-dos]
+enabled = true
+```
 
 *To check if firewall rule applied*  
   
