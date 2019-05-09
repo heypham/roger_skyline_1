@@ -61,7 +61,7 @@ ssh-keygen
 ```
 file in which to save key ```/home/username/.ssh/id_rsa```  
   
-Connect via SSH to the VM to copy the publickey into the VM publickeys file
+Connect via SSH to the VM to copy the publickey into the VM publickeys file, then **from the machine (not VM)**
 ```
 ssh-copy-id -i id_rsa.pub username@ipaddress -p PORTNUMBER
 ```
