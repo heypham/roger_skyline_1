@@ -91,7 +91,7 @@ Software to install :
 - [ ] ... Cinnamon
 - [ ] ... MATE
 - [ ] ... LXDE
-- [ ] web server
+- [x] web server
 - [ ] print server
 - [x] SSH server
 - [x] Standard system utilities
