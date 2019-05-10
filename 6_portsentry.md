@@ -50,23 +50,15 @@ nmap 10.12.1.129
 ```
 *You should get kicked out from the VM if you were connected via ssh*
 
-To unblock IP address, go back to the VM  
-```
-sudo iptables -L --line-numbers
-```
-Check the line that DROP the source of your machine
-```
-sudo iptables -D f2b-HTTP corresponding_line
-```
-Then also deleting your IP address from the denied hosts file
+To deleting your IP address from the denied hosts file
 ```
 sudo vim /etc/hosts.deny
 ```
 Delete IP address of the machine from which you did the *nmap*  
 
-then restart portsentry service
+then reboot
 ```
-sudo service portsentry restart
+sudo reboot
 ```
 
 
