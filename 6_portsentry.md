@@ -62,3 +62,55 @@ then restart portsentry service
 ```
 sudo service portsentry restart
 ```
+
+
+## Stop the services you don’t need for this project.
+
+To do so, we are going to do a linked clone of our VM. And disable the services on the cloned VM to see which services are needed for the project.
+
+1. Log out , close and turn off your VM
+2. Right click in VirtualBox on *Clone...*
+3. *Continue* and tick *linked clone*
+
+**Then, open the cloned VM**
+
+*Check running services*
+```
+sudo systemctl list-units -t service
+```
+or
+```
+sudo systemctl list-unit-files --state=enabled
+```
+or
+```
+sudo service --status-all
+```
+  
+Here are all the running services :
+```
+UNIT FILE                    STATE
+autovt@.service              enabled
+console-setup.service        enabled
+cron.service                 enabled
+fail2ban.service             enabled
+getty@.service               enabled
+keyboard-setup.service       enabled
+netfilter-persistent.service enabled
+networking.service           enabled
+rsyslog.service              enabled
+ssh.service                  enabled
+sshd.service                 enabled
+syslog.service               enabled
+systemd-timesyncd.service    enabled
+remote-fs.target             enabled
+apt-daily-upgrade.timer      enabled
+apt-daily.timer              enabled
+```
+  
+All services listed above are useful, since they are the default services available.
+  
+To disable a service :  
+```
+sudo systemctl disable service_name
+```
