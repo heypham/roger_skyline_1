@@ -22,25 +22,33 @@ in ``` JAILS ``` under ```HTTP servers``` section add the following
 # Block login attempts
 [apache]
 
-enabled = true
-port = http,https
-filter = apache-auth
-logpath = /var/log/apache2/*error.log
-          /var/log/apache2/*errors.log
+enabled  = true
+port     = http,https
+filter   = apache-auth
+logpath  = /var/log/apache2/*error.log
 maxretry = 3
-bantime = 600
+bantime  = 600
+ignoreip = 10.13.1.175
 
 # DOS protection
 [apache-dos]
 
-enabled = true
-port = http,https
-filter = apache-dos
-logpath = /var/log/apache2/access.log
-bantime = 600
+enabled  = true
+port     = http,https
+filter   = apache-dos
+logpath  = /var/log/apache2/access.log
+bantime  = 600
 maxretry = 300
 findtime = 300
-action = iptables[name=HTTP, port=http, protocol=tcp]
+action   = iptables[name=HTTP, port=http, protocol=tcp]
+ignoreip = 10.13.1.175
+
+# ADD THE FOLLOWING LINES TO THE SECTIONS [apache-badbots] [apache-noscript] [apache-overflows]
+
+enabled  = true
+filter   = section-name
+logpath  = /var/log/apache2/*error.log
+ignoreip = 10.13.1.175
 ```
 
 Create *apache-dos.conf* file in **filters.d** folder:
