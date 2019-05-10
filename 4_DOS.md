@@ -1,5 +1,7 @@
 ## You have to set a DOS (Denial Of Service Attack) protection on your open ports of your VM.
   
+https://www.supinfo.com/articles/single/2660-proteger-votre-vps-apache-avec-fail2ban  
+  
 *Installing protection against DOS attacks on open ports*
 ```
 sudo apt install fail2ban
@@ -15,7 +17,7 @@ sudo vim jail.local
 in ```SSH SERVERS SECTION```  
 replace all ```port = ssh``` by ```port = 24```
 
-in ``` JAILS ``` section add the following  
+in ``` JAILS ``` under ```HTTP servers``` section add the following  
 ```
 # Block login attempts
 [apache]
@@ -62,6 +64,10 @@ sudo vim defaults-debian.conf
 [apache-dos]
 enabled = true
 ```
+And restart the service
+```
+sudo service fail2ban restart
+```
 
 *To check if firewall rule applied*  
   
@@ -87,6 +93,11 @@ sudo service fail2ban restart
   
 **Using IPTABLES**  
 https://javapipe.com/blog/iptables-ddos-protection/
+
+Installing service that will make rule changes permanent
+```
+sudo apt-get install iptables-persistent
+```
 
 ```
 # BLOCKING INVALID PACKETS
@@ -135,3 +146,13 @@ sudo reboot
 ```
 
 *To test if working, use slowloris*
+
+To give back access to the machine that has been blocked
+```
+sudo iptables -L --line-numbers
+
+# LOOK FOR THE REJECT line (f2b-HTTP section)
+
+sudo iptables -D f2b-HTTP 1
+sudo reboot
+```
