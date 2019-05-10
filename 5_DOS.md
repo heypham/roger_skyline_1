@@ -65,10 +65,21 @@ ignoreregex =
 ```
 Then enable **[apache dos]** in the file *defaults-debian.conf*
 ```
-cd /etc/fail2ban/jail.d
-sudo vim defaults-debian.conf
+sudo vim /etc/fail2ban/jail.d/defaults-debian.conf
 
 # ADD THESE LINES
+[apache]
+enabled = true
+
+[apache-noscript]
+enabled = true
+
+[apache-overflows]
+enabled = true
+
+[apache-badbots]
+enabled = true
+
 [apache-dos]
 enabled = true
 ```
