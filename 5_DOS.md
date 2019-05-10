@@ -168,10 +168,8 @@ sudo reboot
 
 To give back access to the machine that has been blocked
 ```
-sudo iptables -L --line-numbers
+sudo iptables -L # see banned ip
+sudo fail2ban-client set apache-dos unbanip 10.12.6.12
 
-# LOOK FOR THE REJECT line (f2b-HTTP section)
-
-sudo iptables -D f2b-HTTP 1
-sudo reboot
+sudo service fail2ban restart
 ```
