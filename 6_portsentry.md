@@ -46,7 +46,7 @@ sudo iptables -A port-scanning -j DROP
   
 From a machine, try
 ```
-nmap 10.12.1.129
+nmap -Pn 10.12.1.129
 ```
 *You should get kicked out from the VM if you were connected via ssh*
 
