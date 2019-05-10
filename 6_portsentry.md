@@ -36,6 +36,12 @@ then restart the portsentry service :
 sudo service portsentry restart
 ```
   
+Add to the iptables
+```
+sudo iptables -N port-scanning 
+sudo iptables -A port-scanning -p tcp --tcp-flags SYN,ACK,FIN,RST RST -m limit --limit 1/s --limit-burst 2 -j RETURN 
+sudo iptables -A port-scanning -j DROP
+```
 *To check if portscan protection applied*  
   
 From a machine, try
