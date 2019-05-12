@@ -6,7 +6,7 @@ sudo apt install portsentry
 ```
 
 *Configuration of portsentry*  
-https://www.noobunbox.net/serveur/securite/installer-et-configurer-portsentry-debian-ubuntu  
+https://wiki.debian-fr.xyz/Portsentry
 ```
 cd /etc/default
 sudo vim portsentry
@@ -63,6 +63,7 @@ Delete IP address of the machine from which you did the *nmap*
 
 Then, we need to delete our ban from the iptables
 ```
+sudo iptables -D INPUT 1
 sudo iptables -D INPUT 1
 ```
 
