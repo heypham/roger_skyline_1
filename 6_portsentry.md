@@ -11,6 +11,9 @@ https://www.noobunbox.net/serveur/securite/installer-et-configurer-portsentry-de
 cd /etc/default
 sudo vim portsentry
 ```
+  
+Uncomment the first TCP and UDP lines (the highest protection)
+Comment the second TCP and UDP lines (average protection)
 
 replace  
 ```TCP_MODE="tcp"``` by ```TCP_MODE="atcp"```
@@ -37,15 +40,7 @@ To make sure our own IP address doesn't get banned :
 ```
 sudo vim /etc/portsentry/portsentry.ignore.static
 ```
-  
 Add your inet and IP addresses
-
-Add to the iptables/rules.v4 the following lines
-```
--N port-scanning 
--A port-scanning -p tcp --tcp-flags SYN,ACK,FIN,RST RST -m limit --limit 1/s --limit-burst 2 -j RETURN 
--A port-scanning -j DROP
-```
 
 then restart the portsentry service :  
 ```
