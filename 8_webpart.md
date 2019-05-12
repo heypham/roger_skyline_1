@@ -3,6 +3,7 @@
 You have to set a self-signed SSL on all of your services
 
 https://www.digitalocean.com/community/tutorials/how-to-create-a-ssl-certificate-on-apache-for-debian-8
+https://www.linode.com/docs/security/ssl/ssl-apache2-debian-ubuntu/
   
 First, enable the SSL module of apache2 then reload the service
 ```
