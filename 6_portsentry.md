@@ -26,14 +26,10 @@ sudo vim /etc/portsentry/portsentry.conf
 replace  
 ```BLOCK_UDP="0"``` by ```BLOCK_UDP="1"```
 ```BLOCK_TCP="0"``` by ```BLOCK_TCP="1"```
-
-Comment this line
+  
+Under **EXTERNAL COMMANDS**
 ```
-KILL_ROUTE="/sbin/route add -host $TARGET$ reject"
-```
-Uncomment this line
-```
-KILL_ROUTE= »/sbin/iptables -I INPUT -s $TARGET$ -j DROP && /sbin/iptables -I INPUT -s $TARGET$ -m limit –limit 3/minute –limit-burst 5 -j LOG –log-level debub –log-prefix ‘Portsentry: dropping: ‘ 
+KILL_RUN_CMD="/sbin/iptables -I INPUT -s $TARGET$ -j DROP && /sbin/iptables -I INPUT -s $TARGET$ -m limit --limit 3/minute --limit-burst 5 -j LOG --log-level debug --log-prefix 'Portsentry: dropping: '"
 ```
   
 To make sure our own IP address doesn't get banned :
