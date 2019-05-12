@@ -23,6 +23,15 @@ sudo vim /etc/portsentry/portsentry.conf
 replace  
 ```BLOCK_UDP="0"``` by ```BLOCK_UDP="1"```
 ```BLOCK_TCP="0"``` by ```BLOCK_TCP="1"```
+
+Comment this line
+```
+KILL_ROUTE="/sbin/route add -host $TARGET$ reject"
+```
+Uncomment this line
+```
+KILL_ROUTE= »/sbin/iptables -I INPUT -s $TARGET$ -j DROP && /sbin/iptables -I INPUT -s $TARGET$ -m limit –limit 3/minute –limit-burst 5 -j LOG –log-level debub –log-prefix ‘Portsentry: dropping: ‘ 
+```
   
 To make sure our own IP address doesn't get banned :
 ```
@@ -36,17 +45,11 @@ then restart the portsentry service :
 sudo service portsentry restart
 ```
   
-Add to the iptables
-```
-sudo iptables -N port-scanning 
-sudo iptables -A port-scanning -p tcp --tcp-flags SYN,ACK,FIN,RST RST -m limit --limit 1/s --limit-burst 2 -j RETURN 
-sudo iptables -A port-scanning -j DROP
-```
 *To check if portscan protection applied*  
   
 From a machine, try
 ```
-nmap -Pn 10.12.1.129
+nmap -Pn 10.12.1.140
 ```
 *You should get kicked out from the VM if you were connected via ssh*
 
@@ -55,6 +58,11 @@ To deleting your IP address from the denied hosts file
 sudo vim /etc/hosts.deny
 ```
 Delete IP address of the machine from which you did the *nmap*  
+
+Then, we need to delete our ban from the iptables
+```
+sudo iptables -D INPUT 1
+```
 
 then reboot
 ```
