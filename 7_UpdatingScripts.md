@@ -29,17 +29,23 @@ crontab -e
 At the end of the file, to set the update at 4 am every week :
 ```
 # minute hour dayofmonth month dayofweek command
-0 4 * * 1 /bin/sh autoupdate.sh
+# Update every week at 4 am
+0 4 * * 1 /bin/sh /root/autoupdate.sh
+
+# Update at every reboot
+@reboot /bin/sh /root/autoupdate.sh
 ```
 
 ## Make a script to monitor changes of the /etc/crontab file and sends an email to root if it has been modified. Create a scheduled script task every day at midnight.
 
-
 ```
 apt-get install mailutils
+touch cronchanges.sh
+vim /etc/aliases
 ```
-
-# /etc/aliases
+  
+Make sure all the mails go to root and don't get redirected :
+```
 mailer-daemon: postmaster
 postmaster: root
 nobody: root
@@ -53,5 +59,14 @@ abuse: root
 noc: root
 security: root
 root: root
-
+```
+Then reboot and relog as root
+```
 reboot
+```
+To add the script to the crontab :
+```
+crontab -e
+
+0 0 * * * /bin/sh /root/cronchanges.sh
+```
