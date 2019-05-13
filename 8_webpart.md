@@ -84,6 +84,6 @@ sudo service apache2 restart
 
 Now, go to your browser, and type your address (https) : *https://10.12.1.140*  
   
-Click on *advanced* and go to your page
+Click on *advanced* and *Proceed to 10.12.1.140 (unsafe)*
   
 If you click on *Not secure*, your should find the certificate you have created.
