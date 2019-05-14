@@ -60,6 +60,24 @@ noc: root
 security: root
 root: root
 ```
+
+Write the script
+```
+cd
+sudo vim cronchanges.sh
+```
+
+```
+#!/bin/sh
+
+DIFF=$(diff /etc/crontab /etc/current)
+if [ "$DIFF" != 0  ]
+then
+	echo "The crontab file has been modified" | mail -s "Crontab" root@localhost
+	cp /etc/crontab /etc/current
+fi
+```
+
 Then reboot and relog as root
 ```
 reboot
