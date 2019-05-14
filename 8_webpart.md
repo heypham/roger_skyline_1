@@ -56,6 +56,19 @@ sudo a2dissite            # Disable second default website
 sudo systemctl reload apache2 # Reload apache service
 ```
   
+We will now create the folders needed to configure our website
+```
+cd /var/www/html/epham
+sudo mkdir log
+cd log
+sudo touch error.log
+sudo touch access.log
+```
+Then
+```
+cd /etc/apache2/sites-available/epham.conf
+```
+
 In our configuration file */etc/apache2/sites-available/epham.conf*
 ```
 <VirtualHost *:80>
