@@ -70,10 +70,10 @@ sudo vim cronchanges.sh
 ```
 #!/bin/sh
 
-DIFF=$(diff /etc/crontab /etc/current)
-if [ "$DIFF" != 0  ]
+diff /etc/crontab /etc/current > /dev/null 2> /dev/null
+if [ $? -ne 0  ]
 then
-	echo "The crontab file has been modified" | mail -s "Crontab" root@localhost
+	echo "The crontab file has been modified\n" | mail -s "Crontab" root@localhost
 	cp /etc/crontab /etc/current
 fi
 ```
