@@ -8,8 +8,8 @@ sudo apt install portsentry
 *Configuration of portsentry*  
 https://wiki.debian-fr.xyz/Portsentry
 ```
-cd /etc/default
-sudo vim portsentry
+cd /etc/portsentry
+sudo vim portsentry.conf
 ```
   
 Uncomment the first TCP and UDP lines (the highest protection)
