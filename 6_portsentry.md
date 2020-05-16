@@ -8,7 +8,7 @@ sudo apt install portsentry
 *Configuration of portsentry*  
 https://wiki.debian-fr.xyz/Portsentry
 ```
-cd /etc/portsentry
+cd /etc/default
 sudo vim portsentry.conf
 ```
   
